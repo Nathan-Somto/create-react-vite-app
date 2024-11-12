@@ -79,5 +79,5 @@ If you encounter any issues, feel free to report them at [GitHub Issues](https:/
 Created by [Nathan Somto](https://github.com/Nathan-Somto).
 
 ## Todo
-[ ] Add Support for Shadcn ui
-[ ] Add Support for data fetching libraries like tan stack query and swc.
+- [ ] Add Support for Shadcn ui
+- [ ] Add Support for data fetching libraries like tan stack query and swc.
