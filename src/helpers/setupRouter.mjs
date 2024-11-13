@@ -26,14 +26,14 @@ export function setupRouter({
 
   const homePath = path.join(
     homeDirPath,
-    `Home.${language === "TypeScript" ? "tsx" : "js"}`
+    `Home.${language === "TypeScript" ? "tsx" : "jsx"}`
   );
   fs.writeFileSync(homePath, template.homeTsxContent({ installFramerMotion }));
 
   const appPath = path.join(
     projectPath,
     "src",
-    `App.${language === "TypeScript" ? "tsx" : "js"}`
+    `App.${language === "TypeScript" ? "tsx" : "jsx"}`
   );
   fs.writeFileSync(
     appPath,
