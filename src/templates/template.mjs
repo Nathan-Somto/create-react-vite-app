@@ -1,5 +1,5 @@
 export const template = {
-  tailwindConfig:
+tailwindConfig:
 `/** @type {import('tailwindcss').Config} */
 export default {
      content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
@@ -9,41 +9,48 @@ export default {
           plugins: [],
       };
 `,
-  appTsxContent({ installRouter }) {
-return( 
-`import React from 'react';
-${
-installRouter ? "import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';": ""
+appTsxContent({ installRouter, typeAliasCharacter }) {
+  const aliasPrefix = typeAliasCharacter ? `${typeAliasCharacter}` : "./";
+
+  return `
+import React from 'react';
+${installRouter ? `import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';` : ""}
+import Home from '${aliasPrefix}${installRouter ? "pages/Home" : "components/Home"}';
+
+export default function App() {
+  return (
+    ${
+      installRouter
+        ? `<Router>
+            <Routes>
+              <Route path="/" element={<Home />} />
+            </Routes>
+          </Router>`
+        : "<Home />"
+    }
+  );
+};
+  `;
 }
-${ installRouter ? "import Home from './pages/Home';" : "./components/Home"}
-export default function App (){
-        return (
-    ${installRouter? `<Router>
-                      <Routes>
-                          <Route path="/" element={<Home />} />
-                      </Routes>
-                  </Router>`
-                : "<Home />"
-            }
-              );
-        };
-      `);
-  },
-  homeTsxContent({ installFramerMotion }) {
-    return( 
-`import React from 'react';
+,
+homeTsxContent({ installFramerMotion }) {
+  return `
+import React from 'react';
 ${installFramerMotion ? "import { motion } from 'framer-motion';" : ""}
+
 export default function Home() {
-        return (
-          ${ installFramerMotion ? "<motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>"
-              : "<div>"
-          }
-          <h1 className="text-3xl font-bold underline">Welcome to Home!</h1>
-          ${installFramerMotion ? "</motion.div>" : "</div>"}
-        );
-      };
-    `);
-  },
+  return (
+    ${
+      installFramerMotion
+        ? `<motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>`
+        : "<div>"
+    }
+      <h1 className="text-3xl font-bold underline">Welcome to Home!</h1>
+    ${installFramerMotion ? "</motion.div>" : "</div>"}
+  );
+};
+  `;
+},
   mainTsxContent: 
 `import React from 'react';
 import ReactDOM from 'react-dom';
@@ -55,12 +62,12 @@ import './index.css';
       </React.StrictMode>
       );
       `,
-  tailwindDirectives: 
+tailwindDirectives: 
 `@tailwind base;
 @tailwind components;
 @tailwind utilities;
 `,
-  aliasTsConfig(aliasCharacter) {
+aliasTsConfig(aliasCharacter) {
 return (
 `{
   "files": [],
@@ -75,7 +82,7 @@ return (
       }
     }
 }`)},
-    aliasAppTsConfig(aliasCharacter){ 
+aliasAppTsConfig(aliasCharacter){ 
 return( 
 `{
   "compilerOptions": {
@@ -102,7 +109,7 @@ return(
       "noUncheckedSideEffectImports": true,
       "baseUrl": ".",
       "paths": {
-        "${aliasCharacter}/*": [
+        "${aliasCharacter}*": [
           "./src/*"
         ]
       }
